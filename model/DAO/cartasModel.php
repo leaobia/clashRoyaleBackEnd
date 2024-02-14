@@ -17,7 +17,20 @@ function selectCartas()
     $conexao = conexaoMysql();
 
     // Script para listar todos os dados da tabela tbl_carta
-    $sql = "SELECT * FROM tbl_carta";
+    $sql = "SELECT 
+    c.id_carta,
+    c.nome_carta,
+    c.descricao_carta,
+    c.elixir_carta,
+    c.img_carta,
+    r.nome_raridade,  -- Nome da raridade
+    t.nome_tipo      -- Nome do tipo
+FROM 
+    tbl_carta c
+INNER JOIN 
+    tbl_raridade r ON c.id_raridade = r.id_raridade
+INNER JOIN 
+    tbl_tipo t ON c.id_tipo = t.id_tipo;";
     
     // Executa o script SQL no BD e guarda o retorno dos dados, se houver
     $result = mysqli_query($conexao, $sql);
@@ -35,8 +48,9 @@ function selectCartas()
                 "nome_carta"         =>  $rsDados['nome_carta'],
                 "descricao_carta"    =>  $rsDados['descricao_carta'],
                 "elixir_carta"       =>  $rsDados['elixir_carta'],
-                "id_raridade"        =>  $rsDados['id_raridade'],
-                "id_tipo"            =>  $rsDados['id_tipo']
+                "nome_raridade"      =>  $rsDados['nome_raridade'],
+                "nome_tipo"          =>  $rsDados['nome_tipo'],
+                "img_carta"          =>  $rsDados['img_carta']
             );
         }
 
